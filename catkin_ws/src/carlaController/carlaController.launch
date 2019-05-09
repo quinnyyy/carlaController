@@ -1,4 +1,0 @@
-<launch>
-  <node name="keyboard" pkg="carlaController" type="keyboard.py" />
-  <node name="keyboardSubscriber" pkg="carlaController" type="keyboardSubscriber.py" />
-</launch>

@@ -92,7 +92,7 @@ class Subscriber:
 	
 
 	def listener(self):
-		rospy.init_node('keyboardSubscriber') #name this node subscriber
+		rospy.init_node('subscriber') #name this node subscriber
 		rospy.Subscriber('keyboard',Int32,self.callback) #Subscribe to the 'keyboard' topic
 		rospy.spin()
 
