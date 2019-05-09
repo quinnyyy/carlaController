@@ -25,6 +25,7 @@ class Subscriber:
 	steer = 0.0
 	brake = 0.0
 	reverse = False
+	brake = False
 
 	def __init__(self):
 		self.spawnCar()
@@ -62,35 +63,77 @@ class Subscriber:
 			self.spectator.set_transform(self.camera.get_transform())
 	
 		if direction == 1:
-			if self.reverse == True and self.throttle == 0:
+			#if self.reverse == True and self.throttle == 0:
+			#	self.reverse = False
+			#	self.throttle += .1
+			#elif self.reverse == False:
+			#	self.throttle += .1
+			#else:
+			#	self.throttle -= .1
+
+			if self.reverse == False:
+				self.throttle += .1
+			elif self.reverse == True and abs(self.throttle) < 1:
 				self.reverse = False
-				self.throttle += .1
-			elif self.reverse == False:
-				self.throttle += .1
 			else:
 				self.throttle -= .1
+			
+			if self.steer > 0:
+				self.steer -= .002
+			elif self.steer < 0:
+				self.steer += .002
+
+			self.brake = False
+
 		elif direction == 3:
 			#Backwards
-			if self.reverse == False and self.throttle == 0:
+			#if self.reverse == False and self.throttle == 0:
+			#	self.reverse = True
+			#	self.throttle += .1
+			#elif self.reverse == True:
+			#	self.throttle += .1
+			#else:
+			#	self.throttle -= .1
+
+			if self.reverse == True:
+				self.throttle += .1
+			elif self.reverse == False and abs(self.throttle) < 1:
 				self.reverse = True
-				self.throttle += .1
-			elif self.reverse == True:
-				self.throttle += .1
 			else:
 				self.throttle -= .1
+
+			if self.steer > 0:
+				self.steer -= .002
+			elif self.steer < 0:
+				self.steer += .002
+
+			self.brake = False
+
 		elif direction == 2:
 			self.steer -= .01 #left
+			self.brake = False
+
 		elif direction == 4:
 			self.steer += .01 #right
+			self.brake = False
+
+		elif direction == 5:
+			self.brake = True
+
 		elif direction == 0:
-			self.throttle = 0
+			if abs(self.throttle) < 1:
+				self.throttle = 0
+			elif self.throttle > 0:
+				self.throttle -= .5
 			self.steer = 0
+			self.brake = False
+
+		print direction
+		print self.throttle
 	
 		self.myCar.apply_control(carla.VehicleControl(throttle = self.throttle,
-				steer = self.steer, reverse = self.reverse))
+				steer = self.steer, reverse = self.reverse, brake = self.brake))
 	
-	
-
 	def listener(self):
 		rospy.init_node('keyboardSubscriber') #name this node subscriber
 		rospy.Subscriber('keyboard',Int32,self.callback) #Subscribe to the 'keyboard' topic

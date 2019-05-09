@@ -22,7 +22,7 @@ def controller():
 	while not rospy.is_shutdown():
 		c = stdscr.getch()
 			
-		#0 = No action. 1 = forwards. 2 = left. 3 = backwards. 4 = right. Press q to quit
+		#0 = No action. 1 = forwards. 2 = left. 3 = backwards. 4 = right. 5 for break. Press q to quit
 		if c == ord('w') or c == curses.KEY_UP:
 			direction = 1
 		elif c == ord('a') or c == curses.KEY_LEFT:
@@ -31,6 +31,8 @@ def controller():
 			direction = 3
 		elif c == ord('d') or c == curses.KEY_DOWN:
 			direction = 4
+		elif c == ord(' '):
+			direction = 5
 		elif c == ord('q'):
 			break;
 		else:
