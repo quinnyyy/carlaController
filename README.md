@@ -1,9 +1,9 @@
 # carlaController
 ROS keyboard controller for CARLA simulator
 
-# Todo list
-Write instructions for setup.
-Add ability to hold multiple keys in curses.
+### Issues
+Using the curses library I wasn't sure how to capture multiple keys being pressed at the same time.  
+This makes it difficult to turn.
 
 ## Instructions for setup
 1. Make sure you have CARLA installed
@@ -25,3 +25,4 @@ w = forward
 a = left  
 s = backwards  
 d = right  
+space = brake
